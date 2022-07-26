@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use App\Tag;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Exists;
 
@@ -30,7 +31,8 @@ class Postcontroller extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -46,6 +48,7 @@ class Postcontroller extends Controller
             'content'=> 'required|string',
             'published'=> 'sometimes|accepted',
             'category_id'=>'nullable|Exists:categories,id',
+            'tags'=>'nullable|Exists:tags,id',
         ]);
 
         $data = $request->all();
@@ -54,6 +57,10 @@ class Postcontroller extends Controller
         $newPost->slug = Str::of($data['title'])->slug('-');
         $newPost->published = isset($data['published']);
         $newPost->save();
+
+        if(isset($data['tags'])) {
+            $newPost->tags()->sync($data['tags']);
+        }
         return redirect()->route('admin.posts.show', $newPost->id);
         
     }
