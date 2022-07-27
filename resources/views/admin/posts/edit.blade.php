@@ -4,10 +4,10 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <h1>Modify</h1>
+                <h1>Modify {{$post->title}}</h1>
             </div>
             <div class="card-body">
-                <form action="{{route('admin.posts.update')}}" method="POST">
+                <form action="{{route('admin.posts.update', $post->id)}}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
@@ -38,6 +38,15 @@
                         @error('published')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
+                    </div>
+                    <div class="form-group">
+                        <h6>Tags</h6>
+                       @foreach ($tags as $tag)
+                       <div class="form-check form-check-inline">
+                           <input class="form-check-input" type="checkbox" id="{{$tag->slug}}" value="{{$tag->id}}" name="tags[]" {{in_array($tag->id, old('tags', [])) ? 'checked' : ''}}>
+                           <label for="form-check-label" for="{{$tag->slug}}">{{$tag->name}}</label>
+                       </div>
+                       @endforeach
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                     <a href="{{route('admin.posts.index')}}" class="btn btn-primary">Back</a>
