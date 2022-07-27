@@ -36,7 +36,7 @@
                         <h6>Tags</h6>
                        @foreach ($tags as $tag)
                        <div class="form-check form-check-inline">
-                           <input class="form-check-input" type="checkbox" id="{{$tag->slug}}" value="{{$tag->id}}" name="tags[]">
+                           <input class="form-check-input" type="checkbox" id="{{$tag->slug}}" value="{{$tag->id}}" name="tags[]" {{in_array($tag->id, old('tags', [])) ? 'checked' : ''}}>
                            <label for="form-check-label" for="{{$tag->slug}}">{{$tag->name}}</label>
                        </div>
                        @endforeach 
