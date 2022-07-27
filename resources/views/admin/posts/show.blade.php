@@ -5,17 +5,18 @@
     <div class="card">
         <div class="card-header">
             <h1>{{$post->title}}</h1>
-            {{-- @if ($post->category)
+            @if ($post->category)
             <div class="badge badge-primary">{{$post->category->name}}</div>   
-            @endif --}}
+            @endif
         </div>
         <div class="card-body">
             <div class="md-3">
                 <h5>Tags</h5>
-                {{-- <ul>
+                <ul>
                     @foreach ($post->tags as $tag)
                     <li>{{$tag->name}}</li>
-                </ul> --}}
+                    @endforeach
+                </ul>
             </div>
         </div>
         <div class="card-body">

@@ -85,6 +85,7 @@ class Postcontroller extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
         return view('admin.posts.edit', compact('post','categories'));
     }
 
@@ -123,8 +124,10 @@ class Postcontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('admin.posts.index');
     }
 }
