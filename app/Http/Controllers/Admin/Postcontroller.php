@@ -86,7 +86,14 @@ class Postcontroller extends Controller
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('admin.posts.edit', compact('post','categories', 'tags'));
+
+        //  serve a salvare l'old del tags nell'edit
+        $postTags = $post->tags->map(function ($item)
+        {
+            return $item->id;
+        })->toArray();
+
+        return view('admin.posts.edit', compact('post','categories', 'tags', 'postTags'));
     }
 
     /**
@@ -114,6 +121,10 @@ class Postcontroller extends Controller
         $post->published = isset($data['published']);
 
         $post->save();
+
+        $tags = isset($data['tags']) ? $data['tags'] : [];
+
+        $post->tags()->sync($tags);
 
         return redirect()->route('admin.posts.show', $post->id);
     }
