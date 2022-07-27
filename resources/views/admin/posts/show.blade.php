@@ -12,10 +12,10 @@
         <div class="card-body">
             <div class="md-3">
                 <h5>Tags</h5>
-                <ul>
+                {{-- <ul>
                     @foreach ($post->tags as $tag)
                     <li>{{$tag->name}}</li>
-                </ul>
+                </ul> --}}
             </div>
         </div>
         <div class="card-body">
